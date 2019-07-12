@@ -19,7 +19,8 @@ void * co_getName(void* arg)
 	cout<<"running "<<__func__<<endl;
 	IN_OUT* in_out=(IN_OUT*)arg;
 	int ret = getName(*(in_out->person),*(in_out->name));
-	return NULL;
+        
+        return NULL;
 }
 
 int main()
@@ -34,5 +35,6 @@ int main()
 	cout<<"running "<<__func__<<endl;
 	co_create(&getName_routine,NULL,co_getName,arg);
 	co_resume(getName_routine);
-	cout<<"name is "<<*(arg->name)<<endl;
+	delete arg;
+        cout<<"name is "<<name<<endl;
 }
