@@ -19,10 +19,5 @@ $(target):%:%.o   	#用模式规则对每个独立的目标进行编译
 
 .PHONY:all clean
 clean:
-<<<<<<< HEAD
 	@echo "clean all .o and exe: "
-	rm -rf  $(obj) $(target)	
-=======
-	rm -rf $(obj) $(target)	
->>>>>>> 02aff67ccb3cb26511f05b9ce1910d22b8d93516
-
+	rm -rf  $(obj) $(target)
