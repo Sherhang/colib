@@ -18,5 +18,5 @@ $(target):%:%.cpp
 	$(cc) $(INCS) $(CFLAGS) -c $^ -o $@ $(LIBS)
 
 clean:
-	rm -rf $(obj) &(target)	
+	rm -rf $(obj) $(target)	
 
