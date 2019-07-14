@@ -25,8 +25,8 @@ void* Producer(void* args)
 		task->id = id++;
 		env->task_queue.push(task);
 		printf("%s:%d produce task %d\n", __func__, __LINE__, task->id);
-		co_cond_signal(env->cond);
-		poll(NULL, 0, 1000);
+		//co_cond_signal(env->cond);
+		poll(NULL, 0,100);
 	}
 	return NULL;
 }
@@ -38,7 +38,7 @@ void* Consumer(void* args)
 	{
 		if (env->task_queue.empty())
 		{
-			co_cond_timedwait(env->cond, -1);
+			co_cond_timedwait(env->cond,520);
 			continue;
 		}
 		stTask_t* task = env->task_queue.front();
@@ -46,7 +46,7 @@ void* Consumer(void* args)
 		printf("%s:%d consume task %d\n", __func__, __LINE__, task->id);
 		free(task);
 	}
-	return NULL;
+    return NULL;
 }
 int main()
 {
@@ -62,5 +62,7 @@ int main()
 	co_resume(producer_routine);
 	
 	co_eventloop(co_get_epoll_ct(), NULL, NULL);
+        delete env;
+        free(env->cond);
 	return 0;
 }

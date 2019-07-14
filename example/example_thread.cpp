@@ -21,24 +21,32 @@
 #include "co_routine.h"
 #include "co_routine_inner.h"
 
+#include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
 #include <pthread.h>
 #include <unistd.h>
-
+using namespace std;
 int loop(void *)
 {
-	return 0;
+    sleep(1);
+    cout<<__func__<<endl;	
+    return 0;
 }
 static void *routine_func( void * )
 {
-	stCoEpoll_t * ev = co_get_epoll_ct(); //ct = current thread
-	co_eventloop( ev,loop,0 );
-	return 0;
+    cout<<__func__<<" start"<<endl;	
+    stCoEpoll_t * ev = co_get_epoll_ct(); //ct = current thread
+    for(int i=0;i<5;i++)   
+        cout<<"for "<<i<<endl;
+    co_eventloop( ev,loop,0 );
+    cout<<__func__<<" end"<<endl;
+	return NULL ;
 }
 int main(int argc,char *argv[])
 {
+    cout<<__func__<<" start"<<endl;
 	int cnt = atoi( argv[1] );
 
 	pthread_t tid[ cnt ];
@@ -46,11 +54,9 @@ int main(int argc,char *argv[])
 	{
 		pthread_create( tid + i,NULL,routine_func,0);
 	}
-	for(;;)
-	{
-		sleep(1);
-	}
-	
+
+    cout<<__func__<<" end"<<endl;
+    pthread_exit(NULL);
 	return 0;
 }
 
